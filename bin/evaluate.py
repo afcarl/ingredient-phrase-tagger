@@ -29,6 +29,10 @@ for sentence in sentences:
             word = line[0]
             guess = line[-2]
             gold = line[-1]
+            print(gold)
+            if "B-NAME" not in gold and "B-UNIT" not in gold and "B-QTY" not in gold:
+                continue
+
 
             # we do not count commas
             if word.strip() not in [',']:
@@ -45,12 +49,14 @@ for sentence in sentences:
         correct_sentences += 1
 
 print
+total_sentences += 1
 print 'Sentence-Level Stats:'
 print '\tcorrect: ', correct_sentences
 print '\ttotal: ', total_sentences
 print '\t% correct: ', 100 * (correct_sentences / float(total_sentences))
 
 print
+total_words += 1
 print 'Word-Level Stats:'
 print '\tcorrect:', correct_words
 print '\ttotal:', total_words
