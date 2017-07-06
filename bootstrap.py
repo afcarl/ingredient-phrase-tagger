@@ -21,6 +21,20 @@ measurements = [
 	"liter",
 	"grams",
 	"g",
+	"pound",
+	"lb",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
 	"",
 	"",
 	"",
@@ -43,6 +57,35 @@ notes = [
 	"crumbs",
 	"freshly grated",
 	"grated",
+	"to taste",
+	"freshly squeezed",
+	"washed",
+	"medium",
+	"medium-large",
+	"large",
+	"small",
+	"dissolved in",
+	"sifted",
+	"recipe follows"
+	"raw",
+	"see note",
+	"available at",
+	"granulated",
+	"shredded",
+	"about",
+	"packets",
+	"extra large",
+	"boiling",
+	"peeled",
+	"diced",
+	"minced or mashed in",
+	"a mortar and pestle",
+	"fresh",
+	"thick",
+	"Greek-style",
+	"drained",
+	"thinly sliced",
+	"peeled",
 	"",
 	"",
 	"",
@@ -80,6 +123,14 @@ def randomIngredient():
 	num = random.choice(list(nums.keys()))
 	frac = random.choice(list(fracs.keys()))
 	note = random.choice(notes)
+	if random.random() < 0.1:
+		note += " " + random.choice(notes)
+	if random.random() < 0.1:
+		note += " and " + random.choice(notes)
+	if random.random() < 0.1:
+		note += " or " + random.choice(notes)
+	if random.random() < 0.1:
+		note += " (" + random.choice(notes) + ")"
 	mea = random.choice(measurements)
 	comment = note.strip()
 	item = ing 
@@ -97,6 +148,29 @@ def randomIngredient():
 		note = random.choice(notes)
 		text += ", {}".format(note)	
 		comment += ", {}".format(note)
+	if random.random() < 0.3:
+		note = random.choice(notes)
+		text += " {}".format(note)	
+		comment += " {}".format(note)
+	if random.random() < 0.01:
+		text = "zest of " + text
+	if random.random() < 0.01:
+		text = ing + " " + comment
+		amount = ""
+		mea = ""
+		comment = ""
+	if random.random() < 0.02:
+		text = "salt"
+		ing = "salt"
+		amount = ""
+		mea = ""
+		comment = ""
+	if random.random() < 0.01:
+		text = "salt to taste"
+		ing = "salt"
+		amount = ""
+		mea = ""
+		comment = ""
 	if ',' in text:
 		text = '"'+text+'"'
 	if ',' in item:
@@ -116,6 +190,6 @@ with open("bootstrap.csv","w") as f:
 		
 """
 python3 bootstrap.py
-bin/generate_data --data-path=bootstrap.csv --count=1000 --offset=0 > tmp/train_file
+bin/generate_data --data-path=bootstrap.csv --count=10000 --offset=0 > tmp/train_file
 crf_learn template_file tmp/train_file tmp/model_file 
 """
