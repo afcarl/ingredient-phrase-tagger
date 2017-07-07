@@ -74,6 +74,7 @@ notes = [
 	"shredded",
 	"about",
 	"packets",
+	"stems removed",
 	"extra large",
 	"boiling",
 	"peeled",
@@ -84,6 +85,7 @@ notes = [
 	"thick",
 	"Greek-style",
 	"drained",
+	"freshly ground",
 	"thinly sliced",
 	"peeled",
 	"",
@@ -123,14 +125,14 @@ def randomIngredient():
 	num = random.choice(list(nums.keys()))
 	frac = random.choice(list(fracs.keys()))
 	note = random.choice(notes)
-	if random.random() < 0.1:
+	if random.random() < 0.2:
 		note += " " + random.choice(notes)
-	if random.random() < 0.1:
-		note += " and " + random.choice(notes)
-	if random.random() < 0.1:
-		note += " or " + random.choice(notes)
-	if random.random() < 0.1:
-		note += " (" + random.choice(notes) + ")"
+		if random.random() < 0.1:
+			note += " and " + random.choice(notes)
+		if random.random() < 0.1:
+			note += " or " + random.choice(notes)
+		if random.random() < 0.1:
+			note += " (" + random.choice(notes) + ")"
 	mea = random.choice(measurements)
 	comment = note.strip()
 	item = ing 
@@ -183,7 +185,7 @@ def randomIngredient():
 print(randomIngredient())
 with open("bootstrap.csv","w") as f:
 	f.write("index,input,name,qty,range_end,unit,comment\n")
-	for i in range(1000):
+	for i in range(3000):
 		text, item, measure, amount, comment = randomIngredient()
 		f.write('{},{},{},{},,{},{}\n'.format(i,text,item,amount,measure,comment))
 
