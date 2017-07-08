@@ -76,6 +76,7 @@ def cleanUnicodeFractions(s):
         u'\u00be': '3/4',
         u'\u00bc': '1/4',
         u'\u00bd': '1/2',
+        u'\u215b': '1/8',
     }
 
     for f_unicode, f_ascii in fractions.items():
@@ -230,8 +231,7 @@ def get_tagged_ingredients(ingredients,path_to_model_file):
     with open(tmpFile, 'w') as outfile:
         outfile.write(export_data(ingredients))
 
-    modelFilename = os.path.join(os.path.dirname(__file__), path_to_model_file)
-    cmd = "crf_test -v 1 -m %s %s" % (modelFilename, tmpFile)
+    cmd = "crf_test -v 1 -m %s %s" % (path_to_model_file, tmpFile)
     output = subprocess.check_output(cmd.split()).decode('utf-8')
     os.system("rm %s" % tmpFile)
 
@@ -260,16 +260,19 @@ def get_tagged_ingredients(ingredients,path_to_model_file):
             qty = line.split()[0]
             amount = 0
             for qt in qty.split('$'):
-                if '/' in qt:
-                    amount += float(qt.split('/')[0]) / float(qt.split('/')[1])
-                else:
-                    amount += float(qt)
+                try:
+                    if '/' in qt:
+                        amount += float(qt.split('/')[0]) / float(qt.split('/')[1])
+                    else:
+                        amount += float(qt)
+                except:
+                    pass
             ingredient['qty'] = amount
             lastName = False
 
     return ingredients
 
 
-ingredients = ["\u00be cup heavy cream","1 chicken breast","1 ¾ cups olive oil, refined"]
-path_to_model_file = 'tmp/model_file'
-print(json.dumps(get_tagged_ingredients(ingredients,path_to_model_file),indent=2))
+# ingredients = ["\u00be cup heavy cream","1 chicken breast","1 ¾ cups olive oil, refined"]
+# path_to_model_file = 'tmp/model_file'
+# print(json.dumps(get_tagged_ingredients(ingredients,path_to_model_file),indent=2))
