@@ -73,6 +73,9 @@ def cleanUnicodeFractions(s):
         u'\x2154': '2/3',
         u'\xbd': '1/2',
         u'\xc2': '1/2',
+        u'\u00be': '3/4',
+        u'\u00bc': '1/4',
+        u'\u00bd': '1/2',
     }
 
     for f_unicode, f_ascii in fractions.items():
@@ -267,6 +270,6 @@ def get_tagged_ingredients(ingredients,path_to_model_file):
     return ingredients
 
 
-ingredients = ["1 chicken breast","1 ¾ cups olive oil, refined"]
+ingredients = ["\u00be cup heavy cream","1 chicken breast","1 ¾ cups olive oil, refined"]
 path_to_model_file = 'tmp/model_file'
 print(json.dumps(get_tagged_ingredients(ingredients,path_to_model_file),indent=2))
